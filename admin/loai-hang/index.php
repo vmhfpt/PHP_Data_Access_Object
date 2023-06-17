@@ -37,10 +37,16 @@ if (exist_param("btn_list")) {
     $query_str = file_get_contents("php://input");
     $array = array();
     parse_str($query_str, $array);
-    foreach ($array['arr'] as $data) {
-      loai_delete($data);
+
+    try {
+      foreach ($array['arr'] as $data) {
+        loai_delete($data);
+      }
+      echo json_encode(['status' => 'success']);
+    } catch (Exception $th) {
+      echo json_encode(['status' => 'error']);
     }
-    echo json_encode(['status' => 'success']);
+    
   }
   die();
 } else if (exist_param("btn_update") && !empty($_POST)) {

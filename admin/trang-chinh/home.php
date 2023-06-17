@@ -1,21 +1,47 @@
 <?php
+
 $totalSuccess = 0;
 $totalPending = 0;
 $totalCancel = 0;
 $totalRevenue = 0;
-  foreach($orderStatistic as $key => $value){
-    if($value['active'] == 1){
+$deliver = 0;
+$arrival = 0;
+$leaveWareHouse = 0;
+$receive = 0;
+$notReceive = 0;
+foreach ($orderStatistic as $key => $value) {
+    if ($value['active'] == 1) {
         $totalSuccess = $totalSuccess + $value['total'];
     }
-    if($value['active'] != 1 && $value['active'] != 0){
+    if ($value['active'] != 1 && $value['active'] != 0) {
         $totalPending = $totalPending + $value['total'];
     }
-    if($value['active'] == 0){
+    if ($value['active'] == 0) {
         $totalCancel = $totalCancel + $value['total'];
     }
-    $totalRevenue = $totalRevenue + $value['total_price'];
+    if ($value['active'] == 2) {
+        //da den noi
+        $arrival = $value['total'];
+    }
+    if ($value['active'] == 3) {
+        // dang van chuyen
+        $deliver = $value['total'];
+    }
+    if ($value['active'] == 4) {
+        // da roi kho
+        $leaveWareHouse = $value['total'];
+    }
+    if ($value['active'] == 5) {
+        // đa tiep nhan
+        $receive =  $value['total'];
+    }
+    if ($value['active'] == 6) {
+        // chua tiep nhan
+        $notReceive = $value['total'];
+    }
 
-  }
+    $totalRevenue = $totalRevenue + $value['total_price'];
+}
 ?>
 
 <section class="content mt-3">
@@ -52,14 +78,14 @@ $totalRevenue = 0;
                                     <!-- small box -->
                                     <div class="small-box bg-info">
                                         <div class="inner">
-                                            <h3><?=$totalSuccess?></h3>
+                                            <h3><?= $totalSuccess ?></h3>
 
                                             <p>Đơn hàng thành công</p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-bag"></i>
                                         </div>
-                                        <a href="<?=$ADMIN_URL?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="<?= $ADMIN_URL ?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
@@ -67,14 +93,14 @@ $totalRevenue = 0;
                                     <!-- small box -->
                                     <div class="small-box bg-success">
                                         <div class="inner">
-                                            <h3><?=$totalPending?><sup style="font-size: 20px"></sup></h3>
+                                            <h3><?= $totalPending ?><sup style="font-size: 20px"></sup></h3>
 
                                             <p>Số đơn hàng đang xử lý</p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-stats-bars"></i>
                                         </div>
-                                        <a href="<?=$ADMIN_URL?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="<?= $ADMIN_URL ?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
@@ -82,14 +108,14 @@ $totalRevenue = 0;
                                     <!-- small box -->
                                     <div class="small-box bg-warning">
                                         <div class="inner">
-                                            <h3><?=currency_format($totalRevenue)?></h3>
+                                            <h3><?= currency_format($totalRevenue) ?></h3>
 
                                             <p>Doanh thu hệ thống</p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-person-add"></i>
                                         </div>
-                                        <a href="<?=$ADMIN_URL?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="<?= $ADMIN_URL ?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
@@ -97,17 +123,67 @@ $totalRevenue = 0;
                                     <!-- small box -->
                                     <div class="small-box bg-danger">
                                         <div class="inner">
-                                            <h3><?=$totalCancel?></h3>
+                                            <h3><?= $totalCancel ?></h3>
 
                                             <p>Số đơn hàng đã hủy</p>
                                         </div>
                                         <div class="icon">
                                             <i class="ion ion-pie-graph"></i>
                                         </div>
-                                        <a href="<?=$ADMIN_URL?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
+                                        <a href="<?= $ADMIN_URL ?>/don-hang/" class="small-box-footer">Xem thêm <i class="fas fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
                                 <!-- ./col -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6 col-6">
+                                    <div class="card card-primary card-outline">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="far fa-chart-bar"></i>
+                                                Biểu đồ đơn hàng
+                                            </h3>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div id="bar-chart" style="height: 300px; padding: 0px; position: relative;">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-6">
+                                <div class="card card-primary card-outline">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="far fa-chart-bar"></i>
+                                        Area Chart
+                                    </h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+
+                                    <div id="chartContainer" style="height: 338px; padding: 0px; position: relative;" class="full-width-chart"></div>
+                                </div>
+                            </div>
+                                </div>
                             </div>
 
                             <div class="content">
@@ -145,43 +221,43 @@ $totalRevenue = 0;
                                                             </thead>
                                                             <tbody>
 
-                                                            <?php
-                                     foreach($orderSuggest as $key => $value){
-                                    ?>
-                                       <tr>
-                                        <td><?=$key + 1?></td>
-                                        <td><?=$value['name']?></td>
-                                        <td>   <?php
-                if($value['active'] == 6){
-                    echo '<span class="badge badge-danger">Chưa tiếp nhận</span>';
-                }
-                if($value['active'] == 5){
-                    echo '<span class="badge badge-warning">Đã tiếp nhận</span>';
-                }
-                if($value['active'] == 4){
-                    echo '<span class="badge badge-warning">Đã rời kho</span>';
-                }
-                if($value['active'] == 3){
-                    echo '<span class="badge badge-danger">Đang vận chuyển</span>';
-                }
-                if($value['active'] == 2){
-                    echo '<span class="badge badge-warning">Đã đến nơi</span>';
-                }
-                if($value['active'] == 1){
-                    echo '<span class="badge badge-success">Hoàn thành</span>';
-                }
-                if($value['active'] == 0){
-                    echo '<span class="badge badge-dark">Đã hủy</span>';
-                }
-            ?></td>
-                                        <td>
-                                          <div class="sparkbar"><?=$value['created_at']?></div>
-                                        </td>
-                                        <td><a href="<?=$ADMIN_URL?>/don-hang/index.php?btn_detail&order=<?=$value['id']?>" class="btn btn-info"><i class="fas fa-eye"></i></a></td>
-                                      </tr>
-                                    <?php
-                                     }
-                                    ?>
+                                                                <?php
+                                                                foreach ($orderSuggest as $key => $value) {
+                                                                ?>
+                                                                    <tr>
+                                                                        <td><?= $key + 1 ?></td>
+                                                                        <td><?= $value['name'] ?></td>
+                                                                        <td> <?php
+                                                                                if ($value['active'] == 6) {
+                                                                                    echo '<span class="badge badge-danger">Chưa tiếp nhận</span>';
+                                                                                }
+                                                                                if ($value['active'] == 5) {
+                                                                                    echo '<span class="badge badge-warning">Đã tiếp nhận</span>';
+                                                                                }
+                                                                                if ($value['active'] == 4) {
+                                                                                    echo '<span class="badge badge-warning">Đã rời kho</span>';
+                                                                                }
+                                                                                if ($value['active'] == 3) {
+                                                                                    echo '<span class="badge badge-danger">Đang vận chuyển</span>';
+                                                                                }
+                                                                                if ($value['active'] == 2) {
+                                                                                    echo '<span class="badge badge-warning">Đã đến nơi</span>';
+                                                                                }
+                                                                                if ($value['active'] == 1) {
+                                                                                    echo '<span class="badge badge-success">Hoàn thành</span>';
+                                                                                }
+                                                                                if ($value['active'] == 0) {
+                                                                                    echo '<span class="badge badge-dark">Đã hủy</span>';
+                                                                                }
+                                                                                ?></td>
+                                                                        <td>
+                                                                            <div class="sparkbar"><?= $value['created_at'] ?></div>
+                                                                        </td>
+                                                                        <td><a href="<?= $ADMIN_URL ?>/don-hang/index.php?btn_detail&order=<?= $value['id'] ?>" class="btn btn-info"><i class="fas fa-eye"></i></a></td>
+                                                                    </tr>
+                                                                <?php
+                                                                }
+                                                                ?>
 
                                                             </tbody>
                                                         </table>
@@ -190,7 +266,7 @@ $totalRevenue = 0;
                                                 </div>
                                                 <!-- /.card-body -->
                                                 <div class="card-footer clearfix">
-                                                    <a href="<?=$ADMIN_URL?>/don-hang" class="btn btn-sm btn-secondary float-right">Xem tất cả đơn hàng</a>
+                                                    <a href="<?= $ADMIN_URL ?>/don-hang" class="btn btn-sm btn-secondary float-right">Xem tất cả đơn hàng</a>
                                                 </div>
                                                 <!-- /.card-footer -->
                                             </div>
@@ -219,30 +295,30 @@ $totalRevenue = 0;
                                                 <div class="card-body p-0">
                                                     <ul class="users-list clearfix">
 
-                                                    <?php
-                                                     foreach($userSuggest as $key => $value){
-                                                    ?>
-                                                             <li>
-                                                            <img width="95" height="95" style="border-radius: 100%;
+                                                        <?php
+                                                        foreach ($userSuggest as $key => $value) {
+                                                        ?>
+                                                            <li>
+                                                                <img width="95" height="95" style="border-radius: 100%;
    width : 95px !important;
    height : 95px !important;
-   object-fit: cover;" src="<?=$IMAGE_DIR_USER . $value['hinh']?>" alt="User Image">
-                                                            <a class="users-list-name" href="#"><?=$value['ho_ten']?></a>
-                                                            <span class="users-list-date"><?=$value['email']?></span>
-                                                            <span class="users-list-date"><?=$value['vai_tro'] == 1 ? "Nhân viên": "Khách hàng"?></span>
-                                                        </li>
-                                                    <?php
-                                                     }
-                                                    ?>
+   object-fit: cover;" src="<?= $IMAGE_DIR_USER . $value['hinh'] ?>" alt="User Image">
+                                                                <a class="users-list-name" href="#"><?= $value['ho_ten'] ?></a>
+                                                                <span class="users-list-date"><?= $value['email'] ?></span>
+                                                                <span class="users-list-date"><?= $value['vai_tro'] == 1 ? "Nhân viên" : "Khách hàng" ?></span>
+                                                            </li>
+                                                        <?php
+                                                        }
+                                                        ?>
 
-                                                    
+
 
                                                     </ul>
                                                     <!-- /.users-list -->
                                                 </div>
                                                 <!-- /.card-body -->
                                                 <div class="card-footer text-center">
-                                                    <a href="<?=$ADMIN_URL?>/khach-hang/?btn_list">Xem tất cả người dùng</a>
+                                                    <a href="<?= $ADMIN_URL ?>/khach-hang/?btn_list">Xem tất cả người dùng</a>
                                                 </div>
                                                 <!-- /.card-footer -->
                                             </div>
@@ -307,29 +383,29 @@ $totalRevenue = 0;
 
                                                         <div class="card-body p-0">
                                                             <ul class="products-list product-list-in-card pl-2 pr-2">
-                                                                
 
-                                                              <?php foreach($productSuggest as $key => $value){ ?>
 
-                                                                <li class="item">
-                                                                    <div class="product-img">
-                                                                        <img src="<?=$IMAGE_DIR_PRODUCT.$value['hinh']?>" alt="Product Image" class="img-size-50">
-                                                                    </div>
-                                                                    <div class="product-info">
-                                                                        <a href="<?=$ADMIN_URL?>/hang-hoa/index.php?btn_edit&ma_hh=<?=$value['ma_hh']?>" class="product-title"><?=$value['ten_hh']?>
-                                                                            <span class="badge badge-warning float-right"><?=currency_format($value['don_gia'])?></span></a>
-                                                                        <span class="product-description">
-                                                                        <?=$value['ten_loai']?>
-                                                                        </span>
-                                                                    </div>
-                                                                </li>
-                                                              <?php }?>
+                                                                <?php foreach ($productSuggest as $key => $value) { ?>
+
+                                                                    <li class="item">
+                                                                        <div class="product-img">
+                                                                            <img src="<?= $IMAGE_DIR_PRODUCT . $value['hinh'] ?>" alt="Product Image" class="img-size-50">
+                                                                        </div>
+                                                                        <div class="product-info">
+                                                                            <a href="<?= $ADMIN_URL ?>/hang-hoa/index.php?btn_edit&ma_hh=<?= $value['ma_hh'] ?>" class="product-title"><?= $value['ten_hh'] ?>
+                                                                                <span class="badge badge-warning float-right"><?= currency_format($value['don_gia']) ?></span></a>
+                                                                            <span class="product-description">
+                                                                                <?= $value['ten_loai'] ?>
+                                                                            </span>
+                                                                        </div>
+                                                                    </li>
+                                                                <?php } ?>
 
                                                             </ul>
                                                         </div>
 
                                                         <div class="card-footer text-center">
-                                                            <a href="<?=$ADMIN_URL?>/hang-hoa?btn_list" class="uppercase">Xem tất cả sản phẩm</a>
+                                                            <a href="<?= $ADMIN_URL ?>/hang-hoa?btn_list" class="uppercase">Xem tất cả sản phẩm</a>
                                                         </div>
 
                                                     </div>
@@ -374,22 +450,22 @@ $totalRevenue = 0;
                                                         </thead>
                                                         <tbody>
 
-                                                            <?php foreach($commentSuggest as $key => $value){?>
+                                                            <?php foreach ($commentSuggest as $key => $value) { ?>
                                                                 <tr>
-                                                                <td><?=$key + 1?></td>
-                                                                <td><?=$value['ho_ten']?></td>
-                                                                <td>2023-05-10 22:59:03</td>
-                                                                <td><span class="tag tag-danger"><?=$value['ten_hh']?></span></td>
-                                                                <td><?=$value['noi_dung']?></td>
-                                                                <td><span class="badge bg-warning">Kiểm duyệt</span> </td>
-                                                            </tr>
+                                                                    <td><?= $key + 1 ?></td>
+                                                                    <td><?= $value['ho_ten'] ?></td>
+                                                                    <td>2023-05-10 22:59:03</td>
+                                                                    <td><span class="tag tag-danger"><?= $value['ten_hh'] ?></span></td>
+                                                                    <td><?= $value['noi_dung'] ?></td>
+                                                                    <td><span class="badge bg-warning">Kiểm duyệt</span> </td>
+                                                                </tr>
                                                             <?php } ?>
-                                                            
-                                                          
+
+
                                                         </tbody>
 
                                                     </table>
-                                                   
+
                                                 </div>
                                                 <!-- /.card-body -->
                                             </div>
@@ -416,6 +492,93 @@ $totalRevenue = 0;
     </div>
     <!-- /.row (main row) -->
 </section>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+    $(function() {
+        var bar_data = {
+            data: [
+                [0, <?= $totalCancel ?>],
+                [1, <?= $totalSuccess ?>],
+                [2, <?= $arrival ?>],
+                [3, <?= $deliver ?>],
+                [4, <?= $leaveWareHouse ?>],
+                [5, <?= $receive ?>],
+                [6, <?= $notReceive ?>]
+            ],
+            bars: {
+                show: true
+            }
+        }
+        $.plot('#bar-chart', [bar_data], {
+            grid: {
+                borderWidth: 1,
+                borderColor: '#f3f3f3',
+                tickColor: '#f3f3f3'
+            },
+            series: {
+                bars: {
+                    show: true,
+                    barWidth: 0.5,
+                    align: 'center',
+                },
+            },
+            colors: ['red'],
+            xaxis: {
+                ticks: [
+                    [5, 'Tiếp nhận'],
+                    [6, 'Chưa tiếp nhận'],
+                    [4, 'Rời kho'],
+                    [3, 'Đang giao'],
+                    [2, 'Đến nơi'],
+                    [1, 'Hoàn thành'],
+                    [0, 'Đã hủy']
+                ]
+            }
+        })
+
+
+
+
+    })
+</script>
+
+
+<script type="text/javascript">
+    $("#chartContainer").CanvasJSChart({
+        title: {
+            text: "Biểu đồ đơn hàng theo ngày",
+            fontSize: 24
+        },
+        axisY: {
+            title: "Tất cả các đơn hàng đã tồn tại"
+        },
+        data: [{
+            type: "area",
+            toolTipContent: "{label}: {y} đơn/ngày",
+            dataPoints: [
+                <?php foreach ($chartArea as $key => $value) { ?> {
+                        label: "<?= date_format(date_create($value['created_at']), 'Y-m-d') ?>",
+                        y: <?= (int) $value['total'] ?>
+                    },
+                <?php } ?>
+            ]
+        }]
+    });
+</script>
+
+
+
 <script>
     var listOnline = [];
     var idUser = <?= isset($_SESSION["user"]) ? $_SESSION["user"]['id'] : '' ?>;

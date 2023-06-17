@@ -20,7 +20,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Bạn chưa chọn mục nào</h5>
+                <h5 class="modal-title custom-error-lable" id="exampleModalLabel">Bạn chưa chọn mục nào</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -183,6 +183,9 @@
                     dataPayload.forEach(function(item, index) {
                         $('#' + item).remove();
                     });
+                }else {
+                    $('.custom-error-lable').text('Xóa thất bại');
+                    $('#error-empty').modal('toggle');
                 }
             });
     }
@@ -215,6 +218,7 @@
     $('.delete-all').click(function() {
 
         if ($(".get-check:checked").length == 0) {
+            $('.custom-error-lable').text('Bạn chưa chọn danh mục nào cần xóa');
             $('#error-empty').modal('toggle');
         } else {
             $('.confirm-delete').attr('type-delete', 'multiple');

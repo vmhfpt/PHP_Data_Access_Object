@@ -8,4 +8,8 @@
     $sql = "SELECT `hang_hoa`.`ma_hh`,`hang_hoa`.`ten_hh`,COUNT(*) AS `tong`, MAX(`binh_luan`.`ngay_bl`) AS `moi_nhat`, MIN(`binh_luan`.`ma_bl`) AS `cu_nhat` FROM `binh_luan` JOIN `hang_hoa` WHERE `binh_luan`.`ma_hh` = `hang_hoa`.`ma_hh` GROUP BY `hang_hoa`.`ma_hh`, `hang_hoa`.`ten_hh` HAVING `tong` > 0";
     return pdo_query($sql);
   }
+  function thong_ke_bieu_do_area(){
+    $sql = "SELECT COUNT(*) AS `total`,`created_at` from `order` GROUP BY CAST(`created_at` AS DATE) ORDER BY `order`.`created_at` ASC";
+    return pdo_query($sql);
+  }
 ?>

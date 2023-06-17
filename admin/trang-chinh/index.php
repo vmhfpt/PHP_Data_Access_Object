@@ -4,8 +4,10 @@
   require_once "../../dao/binh_luan.php";
   require_once "../../dao/order.php";
   require_once "../../dao/hang_hoa.php";
+  require_once "../../dao/thong_ke.php";
   check_login();
-
+ $chartArea = thong_ke_bieu_do_area();
+ 
  $orderStatistic = order_statistic_get();
  $orderSuggest = order_select_suggest();
  $userSuggest = select_top_new_khach_hang();

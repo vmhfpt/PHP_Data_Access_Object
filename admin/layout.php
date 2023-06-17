@@ -43,7 +43,7 @@
 
 <script src="<?=$CONTENT_URL?>/admin/plugins/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="<?=$CONTENT_URL?>/admin/plugins/summernote/summernote-bs4.min.css">
-
+<script type="text/javascript" src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script> 
 <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
 
 
@@ -118,7 +118,11 @@
 <script src="<?=$CONTENT_URL?>/admin/plugins/dropzone/min/dropzone.min.js"></script>
 
 
+<script src="<?=$CONTENT_URL?>/admin/plugins/flot/jquery.flot.js"></script>
 
+<script src="<?=$CONTENT_URL?>/admin/plugins/flot/plugins/jquery.flot.resize.js"></script>
+
+<script src="<?=$CONTENT_URL?>/admin/plugins/flot/plugins/jquery.flot.pie.js"></script>
 
 
 </body>
