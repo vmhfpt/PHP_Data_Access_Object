@@ -61,6 +61,10 @@ function hang_hoa_count_total(){
    $sql = "SELECT `hang_hoa`.`ma_hh` FROM `hang_hoa`";
    return pdo_query_get_total($sql);
 }
+function get_rank_product($ma_hh){
+   $sql = "SELECT COUNT(`vote`) AS `total`, COUNT(`vote`) * `vote` AS `caculation`, `vote` FROM `binh_luan` WHERE `ma_hh` = ? AND `vote` != 0 GROUP BY `vote` ORDER BY `binh_luan`.`vote` ASC";
+   return pdo_query($sql, $ma_hh);
+}
 //var_dump(hang_hoa_count_total());
 //var_dump(hang_hoa_selectall());
 //hang_hoa_insert("3","3","3","3","2023-05-17 16:04:45","3",1,"3","3");

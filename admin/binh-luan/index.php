@@ -10,6 +10,7 @@
   extract($_REQUEST);
  
   if(exist_param("btn_detail")){
+    $voteRank = get_rank_product($_GET['ma_hh']);
     $data = hang_hoa_select_by_id($_GET['ma_hh']);
     $dataItem = binh_luan_select_by_hang_hoa($_GET['ma_hh']);
     $VIEW_NAME = "chi-tiet.php";

@@ -14,6 +14,7 @@ if(isset($_GET['hang_hoa'])){
         $productSuggest = hang_hoa_select_suggest_by_the_same_loai_hang($item['ma_loai']);
         $comments = binh_luan_select_by_hang_hoa($item['ma_hh']);
     }
+    $voteRank = get_rank_product($_GET['hang_hoa']);
 }
 
 
@@ -26,7 +27,7 @@ if (exist_param("insert-comment")) {
    // var_dump('handle insert to database comment here');
     extract($_POST);
     if(isset($_SESSION["user"])){
-        $iDNew =  binh_luan_get_lastId($content, $_SESSION["user"]["ma_kh"], $id);
+        $iDNew =  binh_luan_get_lastId($content, $_SESSION["user"]["ma_kh"], $id, $vote);
         $data = binh_luan_getinfor($iDNew);
         echo  json_encode($data);
     }else {

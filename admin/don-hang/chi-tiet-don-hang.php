@@ -1,7 +1,10 @@
 <style>
     .un-success {
         opacity: 0.22 !important;
-
+        cursor :not-allowed !important;
+    }
+    .un-success a {
+        cursor: not-allowed !important;
     }
 
     .over-layer {

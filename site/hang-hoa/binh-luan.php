@@ -1,3 +1,38 @@
+<?php 
+$total = 0;
+$totalRank = 0;
+$worstVote = 0;
+$badVote = 0;
+$normalVote = 0;
+$goodVote = 0;
+$bestVote = 0;
+
+  foreach($voteRank as $key => $value){
+    $totalRank = $totalRank + ($value['total']);
+    if($value['vote'] == 1){
+      $worstVote = $value['total'];
+    }
+    if($value['vote'] == 2){
+      $badVote = $value['total'];
+    }
+    if($value['vote'] == 3){
+      $normalVote  = $value['total'];
+    }
+    if($value['vote'] == 4){
+      $goodVote = $value['total'];
+    }
+    if($value['vote'] == 5){
+      $bestVote = $value['total'];
+    }
+    $total = $total + $value['caculation'];
+  }
+ 
+   if($totalRank  == 0) $totalRank = 0.1;
+   if($total == 0) $total = 0;
+  
+?>
+
+
 <section class="app-detail-bottom container-fluid">
   <div class="container">
     <div class="app-detail-bottom__content">
@@ -192,7 +227,7 @@
           <div class="app-detail-bottom__item-review-content-item ">
             <div class="app-detail-bottom__item-review-content-item-total">
               <div class="app-detail-bottom__item-review-content-item-total-top">
-                <span class="">4.7</span>
+                <span class=""><?=round($total / $totalRank , 1)?></span>
                 <span class="">/5</span>
               </div>
               <div class="app-detail-bottom__item-review-content-item-total-center">
@@ -205,7 +240,7 @@
                 </ul>
               </div>
               <div class="app-detail-bottom__item-review-content-item-total-bottom">
-                <span class="">(26 đánh giá )</span>
+                <span class="">(<?=count($comments)?> đánh giá )</span>
 
               </div>
             </div>
@@ -225,11 +260,11 @@
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
                   <div class="app-detail-bottom__item-review-content-item-vote-flex-item-process">
-                    <div style="width : 20%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
+                    <div style="width : <?=(100/$totalRank) * $bestVote?>%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
                   </div>
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
-                  <span class="">85%</span>
+                  <span class=""><?=round((100/$totalRank) * $bestVote , 0)?>%</span>
                 </div>
               </div>
 
@@ -245,11 +280,11 @@
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
                   <div class="app-detail-bottom__item-review-content-item-vote-flex-item-process">
-                    <div style="width : 50%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
+                    <div style="width : <?=(100/$totalRank) * $goodVote?>%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
                   </div>
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
-                  <span class="">50%</span>
+                  <span class=""><?=round((100/$totalRank) * $goodVote , 0)?>%</span>
                 </div>
               </div>
               <div class="app-detail-bottom__item-review-content-item-vote-flex">
@@ -264,11 +299,11 @@
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
                   <div class="app-detail-bottom__item-review-content-item-vote-flex-item-process">
-                    <div style="width : 74%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
+                    <div style="width : <?=(100/$totalRank) * $normalVote?>%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
                   </div>
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
-                  <span class="">74%</span>
+                  <span class=""><?=round((100/$totalRank) * $normalVote , 0)?>%</span>
                 </div>
               </div>
               <div class="app-detail-bottom__item-review-content-item-vote-flex">
@@ -283,11 +318,11 @@
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
                   <div class="app-detail-bottom__item-review-content-item-vote-flex-item-process">
-                    <div style="width : 12%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
+                    <div style="width : <?=(100/$totalRank) * $badVote?>%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
                   </div>
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
-                  <span class="">12%</span>
+                  <span class=""><?=round((100/$totalRank) * $badVote , 0)?>%</span>
                 </div>
               </div>
               <div class="app-detail-bottom__item-review-content-item-vote-flex">
@@ -302,11 +337,11 @@
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
                   <div class="app-detail-bottom__item-review-content-item-vote-flex-item-process">
-                    <div style="width : 32%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
+                    <div style="width : <?=(100/$totalRank) * $worstVote?>%" class="app-detail-bottom__item-review-content-item-vote-flex-item-process-detail"></div>
                   </div>
                 </div>
                 <div class="app-detail-bottom__item-review-content-item-vote-flex-item ">
-                  <span class="">32%</span>
+                  <span class=""><?=round((100/$totalRank) * $worstVote , 0)?>%</span>
                 </div>
               </div>
 
@@ -333,11 +368,8 @@
                   <div class="app-detail-bottom__item-comment-content-item-top-left">
                     <span class=""><?= $value['ho_ten'] ?></span>
                     <ul class="">
-                      <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                      <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                      <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                      <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                      <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                      <?=str_repeat('<li><i class="fa fa-star" aria-hidden="true"></i></li>', $value['vote']);?>
+                      
                     </ul>
                   </div>
                   <div class="app-detail-bottom__item-comment-content-item-top-right">
@@ -359,13 +391,60 @@
           </div>
 
           <div class="app-detail-bottom__item-comment-content-form">
-
+         <style>
+          .your-vote {
+            margin : 20px 0px;
+            display : flex;
+            gap : 10px;
+            align-items: flex-start;
+          }
+          .your-vote__item {
+            width : 60px;
+            justify-content: center;
+            align-items: center;
+            display : flex;
+            flex-direction: column;
+            gap : 5px;
+            text-align: center;
+          }
+          .your-vote__item span {
+            font-size: 13px;
+          }
+          .your-vote__item i {
+            color : #fe8c23;
+            font-size: 30px;
+            cursor: pointer;
+          }
+         </style>
             <?php
             if (isset($_SESSION['user'])) {
             ?>
               <div class=""> <span class="data-product-id" data-id="<?=$item["ma_hh"]?>" >Để lại bình luận của bạn</span></div>
               <div class="row">
-
+                <div class="col-sm-12">
+                    <div class="your-vote">
+                         <div class="your-vote__item">
+                                <i class="fa fa-star-o fa-star-click" aria-hidden="true" data-vote="1"></i>
+                                <span class="your-vote__item-label">Rất tệ</span>
+                         </div>
+                         <div class="your-vote__item">
+                         <i class="fa fa-star-o fa-star-click" aria-hidden="true" data-vote="2"></i>
+                                <span class="your-vote__item-label">Tệ</span>
+                         </div>
+                         <div class="your-vote__item">
+                         <i class="fa fa-star-o fa-star-click" aria-hidden="true" data-vote="3"></i>
+                                <span class="your-vote__item-label">Bình thường</span>
+                         </div>
+                         <div class="your-vote__item">
+                         <i class="fa fa-star-o fa-star-click" aria-hidden="true" data-vote="4"></i>
+                                <span class="your-vote__item-label">Tốt</span>
+                         </div>
+                         <div class="your-vote__item">
+                         <i class="fa fa-star-o fa-star-click" aria-hidden="true" data-vote="5"></i>
+                                <span class="your-vote__item-label">Tuyệt vời</span>
+                         </div>
+                    </div>
+                </div>
                 <div class="col-sm-12">
                   <div class="form-group">
 
@@ -400,6 +479,24 @@
   </div>
 </section>
 <script>
+  var vote = 0;
+  $('.fa-star-click').click(function(){
+     vote = ($(this).attr("data-vote"));
+     $(".your-vote__item-label").removeAttr("style");
+     $('.your-vote__item-label').eq((vote-1)).css('color', '#fe8c23');
+     $('.fa-star-click').map((index,value) => {
+         if($(value).attr("data-vote") <= vote){
+            $(value).removeClass('fa-star-o');
+            $(value).addClass('fa-star');
+         }else {
+            $(value).removeClass('fa-star');
+            $(value).addClass('fa-star-o');
+         }
+     });
+  })
+
+
+
   var errorInputContent = true;
   $('.pay-input-content').on('input keyup paste', function() {
     text = $(this).val();
@@ -426,20 +523,20 @@
           data: {
             id: $('.data-product-id').attr("data-id"),
             content: $('.pay-input-content').val(),
+            vote : vote
           }
         })
         .done(function(msg) {
+          location.reload();
+          return true;
           msg = JSON.parse(msg);
           const cmtDiv = `<div class="app-detail-bottom__item-comment-content-item">
                 <div class="app-detail-bottom__item-comment-content-item-top">
                   <div class="app-detail-bottom__item-comment-content-item-top-left">
                       <span class="">${msg.ho_ten}</span>
                       <ul class="">
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
+                        
+                        ${`<li><i class="fa fa-star" aria-hidden="true"></i></li>`.repeat(Number(msg.vote))}
                       </ul>
                   </div>
                   <div class="app-detail-bottom__item-comment-content-item-top-right">
